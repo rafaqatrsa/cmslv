@@ -17,6 +17,9 @@ it('renders every account legacy url for authenticated admin users', function (s
     $this->actingAs($user)->get($uri)->assertSuccessful();
 })->with([
     '/admin/account/accounts',
+    '/admin/account/accounts/dashboard',
+    '/admin/account/accounts/newaccounts',
+    '/admin/account/accounts/accountshead',
     '/admin/account/brands',
     '/admin/account/classbooksets',
     '/admin/account/contra',
@@ -47,6 +50,18 @@ it('registers the required account route names', function (string $routeName) {
     expect(Route::has($routeName))->toBeTrue();
 })->with([
     'admin.account.accounts.index',
+    'admin.account.accounts.dashboard.legacy',
+    'admin.account.accounts.newaccounts',
+    'admin.account.accounts.newaccounts.store',
+    'admin.account.accounts.newaccounts.edit',
+    'admin.account.accounts.newaccounts.update',
+    'admin.account.accounts.accountshead',
+    'admin.account.accounts.accountshead.store',
+    'admin.account.accounts.accountshead.edit',
+    'admin.account.accounts.accountshead.update',
+    'admin.account.accounts.newaccounts.by-head',
+    'admin.account.accounts.change-status',
+    'admin.account.accounts.change-status-post',
     'admin.account.brands.index',
     'admin.account.class-book-sets.index',
     'admin.account.contra.index',
@@ -71,4 +86,45 @@ it('registers the required account route names', function (string $routeName) {
     'admin.account.student-fees.index',
     'admin.account.suppliers.index',
     'admin.account.units.index',
+]);
+
+it('renders the Coordinator-style account dashboard for the legacy dashboard url', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->get('/admin/account/accounts/dashboard')
+        ->assertSuccessful()
+        ->assertSee('Fees Collection Statistics For', false)
+        ->assertSee('Fee Overview', false)
+        ->assertSee('Expenses For', false)
+        ->assertSee('Chart Of Accounts', false)
+        ->assertSee('Accounting Records', false)
+        ->assertSee('Network Associate Account', false);
+});
+
+it('opens only one account sidebar section at a time', function () {
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)
+        ->get('/admin/account/accounts')
+        ->assertSuccessful();
+
+    expect(substr_count($response->getContent(), 'admin-sidebar-tree is-open'))->toBe(1)
+        ->and($response->getContent())->toContain('data-sidebar-toggle')
+        ->and($response->getContent())->toContain('transition: max-height .24s ease');
+});
+
+it('renders the three Coordinator chart of accounts screens', function (string $uri, string $expectedText) {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->get($uri)
+        ->assertSuccessful()
+        ->assertSee($expectedText, false)
+        ->assertSee('Chart Of Accounts', false)
+        ->assertDontSee('Student Information', false);
+})->with([
+    ['/admin/account/accounts/newaccounts', 'Accounts Type List'],
+    ['/admin/account/accounts/accountshead', 'Accounts Head List'],
+    ['/admin/account/accounts', 'List View'],
 ]);

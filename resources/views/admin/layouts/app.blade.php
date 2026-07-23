@@ -20,11 +20,15 @@
             }
 
             .admin-content-wrap {
+                display: flex;
+                min-height: 100vh;
+                flex-direction: column;
                 min-width: 0;
                 padding-left: var(--admin-sidebar-width);
             }
 
             .admin-main {
+                flex: 1 0 auto;
                 padding: 72px 8px 24px;
             }
 

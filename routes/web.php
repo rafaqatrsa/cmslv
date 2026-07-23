@@ -111,6 +111,7 @@ use App\Http\Controllers\Admin\QmsController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\SystemNotificationController;
+use App\Http\Controllers\Admin\SystemSettingsDashboardController;
 use App\Http\Controllers\Biometric\BiometricController;
 use App\Http\Controllers\Cron\CronController;
 use App\Http\Controllers\Frontend\WelcomeController;
@@ -188,8 +189,9 @@ Route::prefix('admin')
     ->name('admin.')
     ->middleware(['auth', 'admin', 'branch'])
     ->group(function () {
-        Route::get('/admin/dashboard', [DashboardController::class, 'index'])
+        Route::get('/admin/dashboard/{branch?}', [DashboardController::class, 'index'])
             ->middleware('permission:dashboard,view')
+            ->whereNumber('branch')
             ->name('dashboard');
 
         Route::get('/dashboard', [DashboardController::class, 'index'])
@@ -207,6 +209,9 @@ Route::prefix('admin')
         Route::get('/frontcms', [FrontCmsController::class, 'index'])
             ->middleware('permission:front_cms,view')
             ->name('frontcms.index');
+
+        Route::get('/setting/systemsettings/dashboard', [SystemSettingsDashboardController::class, 'index'])
+            ->name('systemsettings.dashboard');
 
         Route::get('/membership', [MembershipController::class, 'index'])
             ->middleware('permission:membership,view')
@@ -237,6 +242,10 @@ Route::prefix('admin/academics')
         Route::get('/acadm', [AcademicsController::class, 'index'])
             ->middleware('permission:academics,view')
             ->name('dashboard');
+
+        Route::get('/acadm/dashboard', [AcademicsController::class, 'index'])
+            ->middleware('permission:academics,view')
+            ->name('dashboard.legacy');
 
         Route::get('/book', [BookController::class, 'index'])
             ->middleware('permission:book,view')
@@ -371,6 +380,58 @@ Route::prefix('admin/account')
             ->middleware('permission:accounts,view')
             ->name('accounts.index');
 
+        Route::get('/accounts/dashboard', [AccountController::class, 'dashboard'])
+            ->middleware('permission:accounts,view')
+            ->name('accounts.dashboard.legacy');
+
+        Route::get('/accounts/newaccounts', [AccountController::class, 'newAccounts'])
+            ->middleware('permission:accounts,view')
+            ->name('accounts.newaccounts');
+
+        Route::post('/accounts/newaccountscreate', [AccountController::class, 'storeNewAccount'])
+            ->middleware('permission:accounts,view')
+            ->name('accounts.newaccounts.store');
+
+        Route::get('/accounts/newaccountsedit/{account}', [AccountController::class, 'editNewAccount'])
+            ->middleware('permission:accounts,view')
+            ->name('accounts.newaccounts.edit');
+
+        Route::post('/accounts/newaccountsedit/{account}', [AccountController::class, 'updateNewAccount'])
+            ->middleware('permission:accounts,view')
+            ->name('accounts.newaccounts.update');
+
+        Route::get('/accounts/accountshead/{branch?}', [AccountController::class, 'accountsHead'])
+            ->middleware('permission:accounts,view')
+            ->whereNumber('branch')
+            ->name('accounts.accountshead');
+
+        Route::post('/accounts/accountsheadcreate/{branch?}', [AccountController::class, 'storeAccountsHead'])
+            ->middleware('permission:accounts,view')
+            ->whereNumber('branch')
+            ->name('accounts.accountshead.store');
+
+        Route::get('/accounts/accountsheadedit/{account}/{branch?}', [AccountController::class, 'editAccountsHead'])
+            ->middleware('permission:accounts,view')
+            ->whereNumber('branch')
+            ->name('accounts.accountshead.edit');
+
+        Route::post('/accounts/accountsheadedit/{account}/{branch?}', [AccountController::class, 'updateAccountsHead'])
+            ->middleware('permission:accounts,view')
+            ->whereNumber('branch')
+            ->name('accounts.accountshead.update');
+
+        Route::get('/accounts/getBynewaccounts', [AccountController::class, 'getByNewAccounts'])
+            ->middleware('permission:accounts,view')
+            ->name('accounts.newaccounts.by-head');
+
+        Route::post('/accounts/changestatus', [AccountController::class, 'changeStatus'])
+            ->middleware('permission:accounts,view')
+            ->name('accounts.change-status');
+
+        Route::post('/accounts/changestatuspost', [AccountController::class, 'changeStatusPost'])
+            ->middleware('permission:accounts,view')
+            ->name('accounts.change-status-post');
+
         Route::get('/brands', [BrandController::class, 'index'])
             ->middleware('permission:brands,view')
             ->name('brands.index');
@@ -475,6 +536,10 @@ Route::prefix('admin/adm')
         Route::get('/admn', [AdmDashboardController::class, 'index'])
             ->middleware('permission:admn,view')
             ->name('dashboard');
+
+        Route::get('/admn/dashboard', [AdmDashboardController::class, 'index'])
+            ->middleware('permission:admn,view')
+            ->name('dashboard.legacy');
 
         Route::get('/achievement', [AdmAchievementController::class, 'index'])
             ->middleware('permission:achievement,view')
@@ -657,6 +722,10 @@ Route::prefix('admin/hrms')
         Route::get('/hrm', [HrmsDashboardController::class, 'index'])
             ->middleware('permission:hrm,view')
             ->name('dashboard');
+
+        Route::get('/hrm/dashboard', [HrmsDashboardController::class, 'index'])
+            ->middleware('permission:hrm,view')
+            ->name('dashboard.legacy');
 
         Route::get('/documentshrm', [HrDocumentController::class, 'index'])
             ->middleware('permission:documentshrm,view')

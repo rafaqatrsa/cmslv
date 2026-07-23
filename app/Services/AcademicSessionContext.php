@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Setting;
+use Illuminate\Support\Facades\Schema;
 
 class AcademicSessionContext
 {
@@ -14,6 +15,10 @@ class AcademicSessionContext
             if (is_numeric($sessionId)) {
                 return (int) $sessionId;
             }
+        }
+
+        if (! Schema::hasTable((new Setting)->getTable()) || ! Schema::hasColumn((new Setting)->getTable(), 'session_id')) {
+            return null;
         }
 
         return Setting::query()->latest('created_at')->value('session_id');
