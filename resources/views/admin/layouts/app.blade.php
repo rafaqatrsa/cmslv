@@ -8,6 +8,10 @@
         <link rel="stylesheet" href="{{ asset('assets/themes/default/fontawesome/css/all.min.css') }}">
         @vite(['resources/css/app.css'])
         <style>
+            :root {
+                --admin-sidebar-width: 266px;
+            }
+
             body.admin-body {
                 margin: 0;
                 background: #f3f6f8;
@@ -17,7 +21,7 @@
 
             .admin-content-wrap {
                 min-width: 0;
-                padding-left: 296px;
+                padding-left: var(--admin-sidebar-width);
             }
 
             .admin-main {
@@ -28,7 +32,7 @@
                 position: fixed;
                 inset: 0 auto 0 0;
                 z-index: 30;
-                width: 296px;
+                width: var(--admin-sidebar-width);
                 overflow: hidden;
                 background: #24448d;
                 color: #fff;
@@ -76,7 +80,7 @@
                 position: fixed;
                 top: 0;
                 right: 0;
-                left: 296px;
+                left: var(--admin-sidebar-width);
                 z-index: 20;
                 height: 64px;
                 background: #24448d;
@@ -368,7 +372,7 @@
         <div class="min-h-screen">
             @include('admin.partials.sidebar')
 
-            <div class="admin-content-wrap min-w-0 lg:pl-[296px]">
+            <div class="admin-content-wrap min-w-0">
                 @include('admin.partials.header')
                 @include('admin.partials.navbar')
 

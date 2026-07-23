@@ -65,7 +65,12 @@ class AdminMiddleware
             ->where(function ($query): void {
                 $query->where('is_superadmin', 1)
                     ->orWhere(function ($query): void {
-                        $query->where('is_active', 1)
+                        $query->where(function ($query): void {
+                            $query->where('is_active', 1)
+                                ->orWhere('is_active', '1')
+                                ->orWhere('is_active', 'yes')
+                                ->orWhere('is_active', 'active');
+                        })
                             ->whereIn('name', ['Admin', 'Super Admin', 'Staff']);
                     });
             })

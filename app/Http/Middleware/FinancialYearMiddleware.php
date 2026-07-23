@@ -17,7 +17,16 @@ class FinancialYearMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $financialYearId = $request->session()->get('financial_year_id', $request->session()->get('year_id'));
+        $financialYearId = null;
+
+        foreach (config('legacy.session.financial_year_keys', ['financial_year_id', 'year_id']) as $key) {
+            $value = $request->session()->get($key);
+
+            if (is_numeric($value)) {
+                $financialYearId = (int) $value;
+                break;
+            }
+        }
 
         if ($financialYearId && Schema::hasTable('adcademicyear')) {
             $isOpen = DB::table('adcademicyear')
@@ -28,7 +37,7 @@ class FinancialYearMiddleware
                 ->exists();
 
             if (! $isOpen) {
-                $request->session()->forget(['financial_year_id', 'year_id']);
+                $request->session()->forget(config('legacy.session.financial_year_keys', ['financial_year_id', 'year_id']));
 
                 return redirect()->route('admin.dashboard')->with('error', 'The selected financial year is no longer available.');
             }

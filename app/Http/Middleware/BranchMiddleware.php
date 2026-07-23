@@ -17,10 +17,19 @@ class BranchMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $branchId = $request->session()->get('brc_id', $request->session()->get('branch_id'));
+        $branchId = null;
+
+        foreach (config('legacy.session.branch_keys', ['brc_id', 'branch_id']) as $key) {
+            $value = $request->session()->get($key);
+
+            if (is_numeric($value)) {
+                $branchId = (int) $value;
+                break;
+            }
+        }
 
         if ($branchId && Schema::hasTable((new Branch)->getTable()) && ! Branch::query()->whereKey($branchId)->active()->exists()) {
-            $request->session()->forget(['brc_id', 'branch_id']);
+            $request->session()->forget(config('legacy.session.branch_keys', ['brc_id', 'branch_id']));
 
             return redirect()->route('admin.dashboard')->with('error', 'The selected branch is no longer available.');
         }

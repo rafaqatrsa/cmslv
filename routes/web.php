@@ -1,31 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\Account\AccountController;
-use App\Http\Controllers\Admin\Account\AccountDocumentController;
-use App\Http\Controllers\Admin\Account\BrandController;
-use App\Http\Controllers\Admin\Account\ClassBookSetController;
-use App\Http\Controllers\Admin\Account\ContraVoucherController;
-use App\Http\Controllers\Admin\Account\ExpenseController;
-use App\Http\Controllers\Admin\Account\FeeMasterController;
-use App\Http\Controllers\Admin\Account\InvoiceBookSetController;
-use App\Http\Controllers\Admin\Account\InvoiceBookSetReturnController;
-use App\Http\Controllers\Admin\Account\ItemCategoryController;
-use App\Http\Controllers\Admin\Account\JournalVoucherController;
-use App\Http\Controllers\Admin\Account\PaymentVoucherController;
-use App\Http\Controllers\Admin\Account\PayrollController;
-use App\Http\Controllers\Admin\Account\ProductController;
-use App\Http\Controllers\Admin\Account\ProductTypeController;
-use App\Http\Controllers\Admin\Account\PurchaseController;
-use App\Http\Controllers\Admin\Account\PurchaseReturnController;
-use App\Http\Controllers\Admin\Account\ReceiptVoucherController;
-use App\Http\Controllers\Admin\Account\RoyaltyController;
-use App\Http\Controllers\Admin\Account\SaleController;
-use App\Http\Controllers\Admin\Account\SaleReturnController;
-use App\Http\Controllers\Admin\Account\StockController;
-use App\Http\Controllers\Admin\Account\StudentFeeController;
-use App\Http\Controllers\Admin\Account\SupplierController;
-use App\Http\Controllers\Admin\Account\UnitController;
 use App\Http\Controllers\Admin\Academics\AcademicDocumentController;
 use App\Http\Controllers\Admin\Academics\AcademicsController;
 use App\Http\Controllers\Admin\Academics\BookController;
@@ -58,6 +32,31 @@ use App\Http\Controllers\Admin\Academics\TestScheduleController;
 use App\Http\Controllers\Admin\Academics\TimetableController;
 use App\Http\Controllers\Admin\Academics\TopicController;
 use App\Http\Controllers\Admin\Academics\WeekSettingController;
+use App\Http\Controllers\Admin\Account\AccountController;
+use App\Http\Controllers\Admin\Account\AccountDocumentController;
+use App\Http\Controllers\Admin\Account\BrandController;
+use App\Http\Controllers\Admin\Account\ClassBookSetController;
+use App\Http\Controllers\Admin\Account\ContraVoucherController;
+use App\Http\Controllers\Admin\Account\ExpenseController;
+use App\Http\Controllers\Admin\Account\FeeMasterController;
+use App\Http\Controllers\Admin\Account\InvoiceBookSetController;
+use App\Http\Controllers\Admin\Account\InvoiceBookSetReturnController;
+use App\Http\Controllers\Admin\Account\ItemCategoryController;
+use App\Http\Controllers\Admin\Account\JournalVoucherController;
+use App\Http\Controllers\Admin\Account\PaymentVoucherController;
+use App\Http\Controllers\Admin\Account\PayrollController;
+use App\Http\Controllers\Admin\Account\ProductController;
+use App\Http\Controllers\Admin\Account\ProductTypeController;
+use App\Http\Controllers\Admin\Account\PurchaseController;
+use App\Http\Controllers\Admin\Account\PurchaseReturnController;
+use App\Http\Controllers\Admin\Account\ReceiptVoucherController;
+use App\Http\Controllers\Admin\Account\RoyaltyController;
+use App\Http\Controllers\Admin\Account\SaleController;
+use App\Http\Controllers\Admin\Account\SaleReturnController;
+use App\Http\Controllers\Admin\Account\StockController;
+use App\Http\Controllers\Admin\Account\StudentFeeController;
+use App\Http\Controllers\Admin\Account\SupplierController;
+use App\Http\Controllers\Admin\Account\UnitController;
 use App\Http\Controllers\Admin\Adm\AchievementController as AdmAchievementController;
 use App\Http\Controllers\Admin\Adm\AdmDashboardController;
 use App\Http\Controllers\Admin\Adm\AdmDocumentController;
@@ -94,7 +93,7 @@ use App\Http\Controllers\Admin\Adm\StudentTransferController;
 use App\Http\Controllers\Admin\Adm\SubjectAttendanceController;
 use App\Http\Controllers\Admin\Adm\VideoTutorialController;
 use App\Http\Controllers\Admin\Adm\VisitorPurposeController;
-use App\Http\Controllers\Admin\FrontCmsController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Front\BannerController;
 use App\Http\Controllers\Admin\Front\EventController;
 use App\Http\Controllers\Admin\Front\GalleryController as FrontGalleryController;
@@ -102,6 +101,7 @@ use App\Http\Controllers\Admin\Front\MediaController;
 use App\Http\Controllers\Admin\Front\MenuController;
 use App\Http\Controllers\Admin\Front\NoticeController;
 use App\Http\Controllers\Admin\Front\PageController as FrontPageController;
+use App\Http\Controllers\Admin\FrontCmsController;
 use App\Http\Controllers\Admin\Hrms\HrDocumentController;
 use App\Http\Controllers\Admin\Hrms\HrManualController;
 use App\Http\Controllers\Admin\Hrms\HrmsDashboardController;
@@ -669,6 +669,38 @@ Route::prefix('admin/hrms')
         Route::get('/staff', [HrmsStaffController::class, 'index'])
             ->middleware('permission:staff,view')
             ->name('staff.index');
+
+        Route::get('/staff/create/{branchId?}', [HrmsStaffController::class, 'create'])
+            ->middleware('permission:staff,edit')
+            ->name('staff.create');
+
+        Route::post('/staff/create/{branchId?}', [HrmsStaffController::class, 'store'])
+            ->middleware('permission:staff,edit')
+            ->name('staff.store');
+
+        Route::post('/staff/options/{type}', [HrmsStaffController::class, 'storeOption'])
+            ->middleware('permission:staff,edit')
+            ->name('staff.options.store');
+
+        Route::get('/staff/profile/{staffId}', [HrmsStaffController::class, 'profile'])
+            ->middleware('permission:staff,view')
+            ->name('staff.profile');
+
+        Route::get('/staff/edit/{staffId}', [HrmsStaffController::class, 'edit'])
+            ->middleware('permission:staff,edit')
+            ->name('staff.edit');
+
+        Route::put('/staff/{staffId}', [HrmsStaffController::class, 'update'])
+            ->middleware('permission:staff,edit')
+            ->name('staff.update');
+
+        Route::get('/staff/appointment-form/{staffId}', [HrmsStaffController::class, 'appointmentForm'])
+            ->middleware('permission:staff,view')
+            ->name('staff.appointment-form');
+
+        Route::get('/staff/service-experience-certificate/{staffId}', [HrmsStaffController::class, 'serviceExperienceCertificate'])
+            ->middleware('permission:staff,view')
+            ->name('staff.service-experience-certificate');
     });
 
 /*

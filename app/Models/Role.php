@@ -19,7 +19,12 @@ class Role extends Model
 
     public function scopeActive(Builder $query): Builder
     {
-        return $query->where('is_active', 1);
+        return $query->where(function (Builder $query): void {
+            $query->where('is_active', 1)
+                ->orWhere('is_active', '1')
+                ->orWhere('is_active', 'yes')
+                ->orWhere('is_active', 'active');
+        });
     }
 
     protected function casts(): array

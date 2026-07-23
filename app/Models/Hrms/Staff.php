@@ -3,7 +3,9 @@
 namespace App\Models\Hrms;
 
 use App\Models\Branch;
-use App\Models\Role;
+use App\Models\Department;
+use App\Models\Designation;
+use App\Models\RoleBranch;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -16,9 +18,19 @@ class Staff extends HrmsModel
         return $this->belongsTo(Branch::class, 'brc_id');
     }
 
-    public function role(): BelongsTo
+    public function roleAssignment(): BelongsTo
     {
-        return $this->belongsTo(Role::class, 'role_id');
+        return $this->belongsTo(RoleBranch::class, 'role_id');
+    }
+
+    public function departmentDetail(): BelongsTo
+    {
+        return $this->belongsTo(Department::class, 'department');
+    }
+
+    public function designationDetail(): BelongsTo
+    {
+        return $this->belongsTo(Designation::class, 'designation');
     }
 
     public function attendances(): HasMany

@@ -85,6 +85,39 @@ it('authenticates superadmin login against the legacy staff table when staff is 
     $response->assertRedirect(route('admin.dashboard', absolute: false));
 });
 
+it('authenticates active legacy staff when the staff table stores string active flags', function () {
+    Schema::create('staff', function (Blueprint $table): void {
+        $table->id();
+        $table->unsignedBigInteger('brc_id')->nullable();
+        $table->unsignedBigInteger('role_id')->nullable();
+        $table->string('employee_id')->nullable();
+        $table->string('name')->nullable();
+        $table->string('email')->nullable();
+        $table->string('password');
+        $table->string('is_active')->nullable();
+        $table->timestamps();
+    });
+
+    Config::set('auth.providers.users.model', Staff::class);
+    Auth::forgetGuards();
+
+    $staff = Staff::query()->create([
+        'email' => 'legacy-active@example.com',
+        'employee_id' => 'SA-YES',
+        'name' => 'Legacy Active',
+        'password' => Hash::make('password'),
+        'is_active' => 'yes',
+    ]);
+
+    $response = $this->post('/superadmin/login', [
+        'email' => 'legacy-active@example.com',
+        'password' => 'password',
+    ]);
+
+    $this->assertAuthenticatedAs($staff);
+    $response->assertRedirect(route('admin.dashboard', absolute: false));
+});
+
 it('authenticates site users from both sign in urls', function (string $uri) {
     $user = User::factory()->create([
         'email' => 'student@example.com',

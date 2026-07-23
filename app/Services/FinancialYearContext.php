@@ -9,10 +9,12 @@ class FinancialYearContext
 {
     public function id(): ?int
     {
-        $id = session('financial_year_id', session('year_id'));
+        foreach (config('legacy.session.financial_year_keys', ['financial_year_id', 'year_id']) as $key) {
+            $id = session($key);
 
-        if ($id) {
-            return (int) $id;
+            if (is_numeric($id)) {
+                return (int) $id;
+            }
         }
 
         if (! Schema::hasTable('adcademicyear')) {

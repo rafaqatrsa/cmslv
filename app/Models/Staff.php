@@ -35,7 +35,12 @@ class Staff extends Authenticatable
 
     public function scopeActive(Builder $query): Builder
     {
-        return $query->where('is_active', 1);
+        return $query->where(function (Builder $query): void {
+            $query->where('is_active', 1)
+                ->orWhere('is_active', '1')
+                ->orWhere('is_active', 'yes')
+                ->orWhere('is_active', 'active');
+        });
     }
 
     public function scopeForBranch(Builder $query, int $branchId): Builder
@@ -55,7 +60,6 @@ class Staff extends Authenticatable
             'date_of_joining' => 'date',
             'date_of_leaving' => 'date',
             'user_id' => 'integer',
-            'is_active' => 'integer',
             'disable_at' => 'date',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',

@@ -62,11 +62,23 @@ class PermissionMiddleware
             default => 'can_view',
         };
 
+        $branchKeys = config('legacy.session.branch_keys', ['brc_id', 'branch_id']);
+        $branchId = null;
+
+        foreach ($branchKeys as $key) {
+            $value = $request->session()->get($key);
+
+            if (is_numeric($value)) {
+                $branchId = (int) $value;
+                break;
+            }
+        }
+
         return RolePermission::query()
             ->where('role_id', $roleId)
             ->where('perm_cat_id', $categoryId)
-            ->when($request->session()->has('brc_id'), fn ($query) => $query->where(function ($query) use ($request): void {
-                $query->whereNull('brc_id')->orWhere('brc_id', $request->session()->get('brc_id'));
+            ->when($branchId !== null, fn ($query) => $query->where(function ($query) use ($branchId): void {
+                $query->whereNull('brc_id')->orWhere('brc_id', $branchId);
             }))
             ->where($column, 1)
             ->exists();

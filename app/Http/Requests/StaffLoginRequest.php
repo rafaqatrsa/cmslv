@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -44,13 +45,14 @@ class StaffLoginRequest extends FormRequest
     /**
      * Attempt to authenticate a staff member with the default web guard.
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->credentials(), $this->shouldRemember())) {
+        if (! Auth::attempt($this->credentials(), $this->shouldRemember()) || ! $this->activeUser()) {
+            Auth::logout();
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
@@ -64,7 +66,7 @@ class StaffLoginRequest extends FormRequest
     /**
      * Ensure repeated staff login attempts are rate limited.
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function ensureIsNotRateLimited(): void
     {
@@ -99,16 +101,10 @@ class StaffLoginRequest extends FormRequest
      */
     private function credentials(): array
     {
-        $credentials = [
+        return [
             $this->loginColumn() => $this->string('email')->toString(),
             'password' => $this->string('password')->toString(),
         ];
-
-        if (Schema::hasColumn($this->authTable(), 'is_active')) {
-            $credentials['is_active'] = 1;
-        }
-
-        return $credentials;
     }
 
     private function loginColumn(): string
@@ -136,10 +132,21 @@ class StaffLoginRequest extends FormRequest
         return $this->boolean('remember') && Schema::hasColumn($this->authTable(), 'remember_token');
     }
 
+    private function activeUser(): bool
+    {
+        if (! Schema::hasColumn($this->authTable(), 'is_active')) {
+            return true;
+        }
+
+        $isActive = strtolower(trim((string) Auth::user()?->is_active));
+
+        return in_array($isActive, config('legacy.status.active_values', ['1', 'yes', 'active']), true);
+    }
+
     private function authTable(): string
     {
         $provider = config('auth.guards.'.config('auth.defaults.guard', 'web').'.provider', 'users');
-        $model = config("auth.providers.{$provider}.model", \App\Models\User::class);
+        $model = config("auth.providers.{$provider}.model", User::class);
 
         return (new $model)->getTable();
     }

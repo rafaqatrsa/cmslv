@@ -2,16 +2,18 @@
 
 namespace App\Services;
 
-use Illuminate\Http\Request;
-
 class BranchContext
 {
-    public function __construct(private readonly Request $request) {}
-
     public function id(): ?int
     {
-        $branchId = $this->request->session()->get('brc_id', $this->request->session()->get('branch_id'));
+        foreach (config('legacy.session.branch_keys', ['brc_id', 'branch_id']) as $key) {
+            $branchId = session($key);
 
-        return is_numeric($branchId) ? (int) $branchId : null;
+            if (is_numeric($branchId)) {
+                return (int) $branchId;
+            }
+        }
+
+        return null;
     }
 }

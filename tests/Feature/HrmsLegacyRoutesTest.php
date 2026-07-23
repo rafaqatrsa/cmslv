@@ -22,6 +22,20 @@ it('renders every hrms legacy url for authenticated admin users', function (stri
     '/admin/hrms/staff',
 ]);
 
+it('renders the hrms staff page with the tailored search and records sections', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->get('/admin/hrms/staff')
+        ->assertSuccessful()
+        ->assertSee('Select Criteria')
+        ->assertSee('Search By Keyword')
+        ->assertSee('List View')
+        ->assertSee('Branch')
+        ->assertSee('Action')
+        ->assertSee('Add Staff');
+});
+
 it('registers the required hrms route names', function (string $routeName) {
     expect(Route::has($routeName))->toBeTrue();
 })->with([
@@ -29,4 +43,9 @@ it('registers the required hrms route names', function (string $routeName) {
     'admin.hrms.documents.index',
     'admin.hrms.manual.index',
     'admin.hrms.staff.index',
+    'admin.hrms.staff.profile',
+    'admin.hrms.staff.edit',
+    'admin.hrms.staff.update',
+    'admin.hrms.staff.appointment-form',
+    'admin.hrms.staff.service-experience-certificate',
 ]);

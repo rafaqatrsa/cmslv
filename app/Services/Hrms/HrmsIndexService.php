@@ -5,6 +5,7 @@ namespace App\Services\Hrms;
 use App\Services\BranchContext;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Support\Facades\Schema;
@@ -27,13 +28,18 @@ class HrmsIndexService
             ]);
         }
 
-        /** @var class-string<\Illuminate\Database\Eloquent\Model> $model */
+        /** @var class-string<Model> $model */
         $model = $module['model'];
-        /** @var \Illuminate\Database\Eloquent\Model $instance */
+        /** @var Model $instance */
         $instance = new $model;
         $columns = Schema::getColumnListing($instance->getTable());
+        $query = $model::query();
 
-        return $model::query()
+        if ($module['route'] === 'admin.hrms.staff.index' && $instance instanceof Model) {
+            $query->with(['branch', 'role', 'departmentDetail', 'designationDetail']);
+        }
+
+        return $query
             ->when($request->filled('search'), function (Builder $query) use ($module, $request, $columns): void {
                 $search = $request->string('search')->toString();
                 $searchable = array_values(array_intersect($module['search'], $columns));
