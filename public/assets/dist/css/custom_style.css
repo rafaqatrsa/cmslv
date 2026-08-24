@@ -1,0 +1,399 @@
+.box_dashboard{
+	display: block;
+    font-size: 15px;
+    margin-top: 38px;
+    white-space: nowrap;
+    margin-left: 19px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.col-md-12, 
+.row > [class*="col-"] {
+    padding-left: 5px;
+    padding-right: 2px;
+}
+
+.row {
+    margin-left: -8px;
+    margin-right: -8px;
+}
+
+.student-search-page .col-md-12,
+.student-search-page .row > [class*="col-"] {
+    padding-left: 5px !important;
+    padding-right: 2px !important;
+}
+
+.student-search-page .row {
+    margin-left: -8px !important;
+    margin-right: -8px !important;
+}
+
+.master-create-label {
+    display: inline-block;
+}
+
+.master-create-label-btn {
+    float: none;
+    padding: 1px 8px;
+    line-height: 18px;
+    margin-top: -2px;
+}
+
+.master-create-label-action {
+    float: right;
+    display: inline-block;
+}
+
+.form-control,
+input.form-control,
+select.form-control {
+    height: 35px;
+    min-height: 35px;
+    padding: 6px 12px;
+    line-height: 20px;
+}
+
+.select2-container .select2-selection--single {
+    height: 35px;
+    min-height: 35px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered,
+.select2-container .select2-selection--single .select2-selection__rendered {
+    color: #444 !important;
+    line-height: 31px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow,
+.select2-container .select2-selection--single .select2-selection__arrow {
+    height: 26px !important;
+    position: absolute !important;
+    top: 6px !important;
+    right: 1px !important;
+    width: 20px !important;
+}
+
+.bootstrap-select > .dropdown-toggle {
+    height: 35px;
+    min-height: 35px;
+    padding: 6px 12px;
+    line-height: 20px;
+}
+
+.input-group .form-control,
+.input-group-addon,
+.input-group-btn > .btn {
+    height: 35px;
+    min-height: 35px;
+}
+
+.input-group-addon {
+    padding: 0 8px;
+    vertical-align: middle;
+}
+
+.input-group-addon select {
+    height: 33px;
+    border: 0;
+    background: transparent;
+}
+
+textarea.form-control {
+    height: auto;
+    min-height: 70px;
+}
+
+#studentregdformadd > .col-md-12,
+#studentregdformadd .row > [class*="col-"] {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#studentregdformadd .row {
+    margin-left: -8px;
+    margin-right: -8px;
+}
+
+#studentregdformadd .tshadow {
+    background: #fff;
+    border: 1px solid #dde3ea;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(31, 45, 61, 0.06);
+    margin-bottom: 12px;
+    overflow: visible;
+}
+
+#studentregdformadd .bozero {
+    border-top: 1px solid #dde3ea !important;
+}
+
+#studentregdformadd .pagetitleh2,
+#studentregdformadd .col-md-12.pagetitleh2 {
+    min-height: 34px;
+    margin: 0;
+    padding: 8px 12px !important;
+    border-bottom: 1px solid #e6ebf1;
+    background: #f9fbfd;
+    color: #1f2d3d;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 18px;
+}
+
+#studentregdformadd .pagetitleh2 .box-title,
+#studentregdformadd .pagetitleh2 h4 {
+    margin: 0 !important;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 18px;
+}
+
+#studentregdformadd .around10 {
+    padding: 12px;
+}
+
+#studentregdformadd .form-group > label,
+#studentregdformadd .form-group > .master-create-label {
+    margin-bottom: 5px;
+    color: #202f3f;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 18px;
+}
+
+#studentregdformadd small.req {
+    color: #e3342f;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+#studentregdformadd .form-control,
+#studentregdformadd .select2-container .select2-selection--single,
+#studentregdformadd .bootstrap-select > .dropdown-toggle,
+#studentregdformadd .input-group-addon,
+#studentregdformadd .input-group-btn > .btn {
+    border-color: #cfd7df;
+    border-radius: 3px;
+}
+
+#studentregdformadd .select2-container {
+    width: 100% !important;
+}
+
+#studentregdformadd .input-group .form-control {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+#studentregdformadd .input-group-addon {
+    background: #f9fbfd;
+}
+
+#studentregdformadd .master-create-label-action {
+    margin-top: -1px;
+}
+
+#studentregdformadd .master-create-label-btn {
+    min-width: 34px;
+    height: 24px;
+    padding: 2px 9px;
+    line-height: 18px;
+}
+
+#studentregdformadd .dropify-wrapper {
+    border-color: #cfd7df;
+    border-radius: 3px;
+}
+
+#studentregdformadd .feesassigncontainer .form-group,
+#studentregdformadd .feetotalwrap .form-group {
+    min-height: 0;
+}
+
+#studentregdformadd .box-footer {
+    margin: 0;
+    padding: 12px 8px 0;
+    background: transparent;
+}
+
+#studentadmitformadd > .col-md-12,
+#studentadmitformadd .row > [class*="col-"] {
+    padding-left: 5px;
+    padding-right: 2px;
+}
+
+#studentadmitformadd .row {
+    margin-left: -8px;
+    margin-right: -8px;
+}
+
+#studentcongratulationform > .col-md-12,
+#studentcongratulationform .row > [class*="col-"] {
+    padding-left: 5px;
+    padding-right: 2px;
+}
+
+#studentcongratulationform .row {
+    margin-left: -8px;
+    margin-right: -8px;
+}
+
+.admit-student-photo .dropify-wrapper{
+    width: 100%;
+    height: 36px !important;
+    min-height: 36px !important;
+    padding: 0 10px !important;
+    line-height: normal;
+}
+.admit-student-photo .dropify-wrapper .dropify-message{
+    position: static !important;
+    top: auto !important;
+    transform: none !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-width: 0;
+    height: 35px;
+    padding: 0;
+}
+.admit-student-photo .dropify-wrapper .dropify-message p{
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 18px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.admit-student-photo .dropify-wrapper .dropify-message span.file-icon{
+    flex: 0 0 auto;
+    font-size: 18px;
+    line-height: 18px;
+}
+
+.admission-enquiry-filter-row > [class*="col-"],
+#formadd .row > [class*="col-"],
+#myForm1 .row > [class*="col-"],
+#studentregdformadd > .col-md-12,
+#studentregdformadd .row > [class*="col-"],
+#studentadmitformadd > .col-md-12,
+#studentadmitformadd .row > [class*="col-"],
+#studentcongratulationform > .col-md-12,
+#studentcongratulationform .row > [class*="col-"] {
+    padding-left: 5px;
+    padding-right: 2px;
+}
+
+
+
+.admission-enquiry-filter-row,
+#formadd .row,
+#myForm1 .row,
+#studentregdformadd .row,
+#studentadmitformadd .row,
+#studentcongratulationform .row {
+    margin-left: -8px;
+    margin-right: -8px;
+}
+
+.student-action-cell {
+    text-align: right;
+    min-width: 210px;
+}
+
+span.student-action-cell {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.student-action-cell .student-action-btn {
+    border: 0;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.16);
+    color: #fff;
+    height: 24px;
+    line-height: 18px;
+    margin: 2px 0 2px 5px;
+    min-width: 28px;
+    padding: 3px 7px;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.student-action-cell .student-action-btn:hover,
+.student-action-cell .student-action-btn:focus {
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.22);
+    transform: translateY(-1px);
+}
+
+.student-action-view {
+    background-color: #1f4e8c;
+}
+
+.student-action-login {
+    background-color: #2657a8;
+}
+
+.student-action-download {
+    background-color: #f39c12;
+}
+
+.student-action-edit {
+    background-color: #224f9c;
+}
+
+.student-action-fee {
+    background-color: #00a65a;
+}
+
+.student-action-collect {
+    background-color: #009a4e;
+}
+
+.student-action-disable {
+    background-color: #e74c3c;
+}
+
+.student-action-enable {
+    background-color: #00a65a;
+}
+
+.student-action-transfer {
+    background-color: #f5a623;
+}
+
+.student-action-promote {
+    background-color: #1d4f91;
+}
+
+.student-class-section-badge {
+    background: #eef6ff;
+    border: 1px solid #b8d8f7;
+    border-radius: 4px;
+    color: #1f4e8c;
+    display: inline-block;
+    font-weight: 600;
+    line-height: 1.2;
+    padding: 4px 8px;
+}
+
+.student-class-section-badge .section-name {
+    color: #00a65a;
+    margin-left: 4px;
+}
+
+.login-student-info-banner {
+    background: #264895;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 8px;
+    padding: 9px 11px;
+    text-align: center;
+}
