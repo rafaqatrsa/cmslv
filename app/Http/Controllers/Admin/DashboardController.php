@@ -3,18 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Branch;
-use App\Models\LibraryMember;
-use App\Models\Page;
-use App\Models\Post;
-use App\Models\Staff;
 use App\Models\SystemNotification;
+use App\Services\Admin\DashboardMetricsService;
+use App\Services\BranchContext;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    public function index(Request $request, ?int $branch = null): View
+    public function index(Request $request, DashboardMetricsService $metrics, ?int $branch = null): View
     {
         if ($branch !== null) {
             foreach (config('legacy.session.branch_keys', ['brc_id', 'branch_id']) as $key) {
@@ -22,19 +20,15 @@ class DashboardController extends Controller
             }
         }
 
-        $stats = [
-            'branches' => Branch::query()->count(),
-            'staff' => Staff::query()->count(),
-            'front_pages' => Page::query()->count(),
-            'front_posts' => Post::query()->count(),
-            'members' => LibraryMember::query()->count(),
-            'notifications' => SystemNotification::query()->count(),
-        ];
+        $branchId = $branch ?? app(BranchContext::class)->id();
+        $stats = $metrics->for($branchId);
 
-        $latestNotifications = SystemNotification::query()
-            ->latest('created_at')
-            ->limit(5)
-            ->get();
+        $latestNotifications = Schema::hasTable('system_notification')
+            ? SystemNotification::query()
+                ->latest('created_at')
+                ->limit(5)
+                ->get()
+            : collect();
 
         return view('admin.dashboard.index', compact('stats', 'latestNotifications'));
     }

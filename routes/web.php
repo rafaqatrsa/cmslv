@@ -85,9 +85,11 @@ use App\Http\Controllers\Admin\Adm\SourceController;
 use App\Http\Controllers\Admin\Adm\StaffAttendanceController;
 use App\Http\Controllers\Admin\Adm\StaffIdCardController;
 use App\Http\Controllers\Admin\Adm\StaffIdCardGeneratorController;
+use App\Http\Controllers\Admin\Adm\StudentAdmissionController;
 use App\Http\Controllers\Admin\Adm\StudentAttendanceController;
 use App\Http\Controllers\Admin\Adm\StudentController;
 use App\Http\Controllers\Admin\Adm\StudentIdCardController;
+use App\Http\Controllers\Admin\Adm\StudentPromotionController;
 use App\Http\Controllers\Admin\Adm\StudentRegistrationController;
 use App\Http\Controllers\Admin\Adm\StudentTransferController;
 use App\Http\Controllers\Admin\Adm\SubjectAttendanceController;
@@ -541,6 +543,10 @@ Route::prefix('admin/adm')
             ->middleware('permission:admn,view')
             ->name('dashboard.legacy');
 
+        Route::get('/admn/dashboard/', [AdmDashboardController::class, 'index'])
+            ->middleware('permission:admn,view')
+            ->name('dashboard.legacy.slash');
+
         Route::get('/achievement', [AdmAchievementController::class, 'index'])
             ->middleware('permission:achievement,view')
             ->name('achievements.index');
@@ -594,8 +600,68 @@ Route::prefix('admin/adm')
             ->name('documents.index');
 
         Route::get('/enquiry', [EnquiryController::class, 'index'])
-            ->middleware('permission:enquiry,view')
+            ->middleware('permission:admission_enquiry,view')
             ->name('enquiries.index');
+
+        Route::get('/enquiry/data', [EnquiryController::class, 'data'])
+            ->middleware('permission:admission_enquiry,view')
+            ->name('enquiries.data');
+
+        Route::get('/enquiry/{id}/details', [EnquiryController::class, 'details'])
+            ->middleware('permission:admission_enquiry,view')
+            ->name('enquiries.details');
+
+        Route::get('/enquiry/{id}/follow-ups', [EnquiryController::class, 'followUps'])
+            ->middleware('permission:follow_up_admission_enquiry,view')
+            ->name('enquiries.follow-ups');
+
+        Route::post('/enquiry/{id}/follow-ups', [EnquiryController::class, 'storeFollowUp'])
+            ->middleware('permission:follow_up_admission_enquiry,add')
+            ->name('enquiries.follow-ups.store');
+
+        Route::delete('/enquiry/{id}/follow-ups/{followUpId}', [EnquiryController::class, 'destroyFollowUp'])
+            ->middleware('permission:follow_up_admission_enquiry,delete')
+            ->name('enquiries.follow-ups.destroy');
+
+        Route::get('/enquiry/create', [EnquiryController::class, 'create'])
+            ->middleware('permission:admission_enquiry,add')
+            ->name('enquiries.create');
+
+        Route::post('/enquiry', [EnquiryController::class, 'store'])
+            ->middleware('permission:admission_enquiry,add')
+            ->name('enquiries.store');
+
+        Route::put('/enquiry/{id}', [EnquiryController::class, 'update'])
+            ->middleware('permission:admission_enquiry,edit')
+            ->name('enquiries.update');
+
+        Route::delete('/enquiry/{id}', [EnquiryController::class, 'destroy'])
+            ->middleware('permission:admission_enquiry,delete')
+            ->name('enquiries.destroy');
+
+        Route::patch('/enquiry/{id}/status', [EnquiryController::class, 'changeStatus'])
+            ->middleware('permission:admission_enquiry,edit')
+            ->name('enquiries.status');
+
+        Route::get('/enquiry/fee-structure', [EnquiryController::class, 'feeStructure'])
+            ->middleware('permission:admission_enquiry,view')
+            ->name('enquiries.fee-structure');
+
+        Route::post('/enquiry/check-number', [EnquiryController::class, 'checkNumber'])
+            ->middleware('permission:admission_enquiry,add')
+            ->name('enquiries.check-number');
+
+        Route::post('/enquiry/occupation', [EnquiryController::class, 'addOccupation'])
+            ->middleware('permission:occupation,add')
+            ->name('enquiries.occupation.store');
+
+        Route::post('/enquiry/reference', [EnquiryController::class, 'addReference'])
+            ->middleware('permission:reference,add')
+            ->name('enquiries.reference.store');
+
+        Route::post('/enquiry/source', [EnquiryController::class, 'addSource'])
+            ->middleware('permission:source,add')
+            ->name('enquiries.source.store');
 
         Route::get('/generalcall', [GeneralCallController::class, 'index'])
             ->middleware('permission:generalcall,view')
@@ -637,6 +703,20 @@ Route::prefix('admin/adm')
             ->middleware('permission:siblings,view')
             ->name('siblings.index');
 
+        Route::post('/siblings', [SiblingController::class, 'store'])
+            ->middleware('permission:siblings,add')
+            ->name('siblings.store');
+
+        Route::patch('/siblings/{sibling}', [SiblingController::class, 'update'])
+            ->whereNumber('sibling')
+            ->middleware('permission:siblings,edit')
+            ->name('siblings.update');
+
+        Route::delete('/siblings/{sibling}', [SiblingController::class, 'destroy'])
+            ->whereNumber('sibling')
+            ->middleware('permission:siblings,delete')
+            ->name('siblings.destroy');
+
         Route::get('/source', [SourceController::class, 'index'])
             ->middleware('permission:source,view')
             ->name('sources.index');
@@ -653,6 +733,18 @@ Route::prefix('admin/adm')
             ->middleware('permission:stdtransferclasssection,view')
             ->name('student-transfers.index');
 
+        Route::get('/stdtransferclasssection/sections', [StudentTransferController::class, 'sections'])
+            ->middleware('permission:stdtransferclasssection,view')
+            ->name('student-transfers.sections');
+
+        Route::post('/stdtransferclasssection/transfer', [StudentTransferController::class, 'transfer'])
+            ->middleware('permission:stdtransferclasssection,view')
+            ->name('student-transfers.transfer');
+
+        Route::get('/student/stdtransfer', [StudentTransferController::class, 'index'])
+            ->middleware('permission:stdtransferclasssection,view')
+            ->name('student-transfers.legacy');
+
         Route::get('/stuattendence', [StudentAttendanceController::class, 'index'])
             ->middleware('permission:stuattendence,view')
             ->name('student-attendance.index');
@@ -661,9 +753,103 @@ Route::prefix('admin/adm')
             ->middleware('permission:student,view')
             ->name('students.index');
 
+        Route::get('/student/search', [StudentController::class, 'index'])
+            ->middleware('permission:student,view')
+            ->name('students.search');
+
+        Route::get('/student/sections', [StudentController::class, 'sections'])
+            ->middleware('permission:student,view')
+            ->name('students.sections');
+
+        Route::get('/student/view/{student}/{brc_id?}', [StudentController::class, 'show'])
+            ->whereNumber('student')
+            ->whereNumber('brc_id')
+            ->middleware('permission:student,view')
+            ->name('students.show');
+
         Route::get('/student_regd', [StudentRegistrationController::class, 'index'])
             ->middleware('permission:student_regd,view')
             ->name('student-registrations.index');
+
+        Route::get('/student_regd/create', [StudentRegistrationController::class, 'create'])
+            ->middleware('permission:student_regd,add')
+            ->name('student-registrations.create');
+
+        Route::get('/student/create', [StudentAdmissionController::class, 'create'])
+            ->middleware('permission:student,add')
+            ->name('student-admissions.create');
+
+        Route::post('/student_regd', [StudentRegistrationController::class, 'store'])
+            ->middleware('permission:student_regd,add')
+            ->name('student-registrations.store');
+
+        Route::post('/student/create', [StudentAdmissionController::class, 'store'])
+            ->middleware('permission:student,add')
+            ->name('student-admissions.store');
+
+        Route::get('/student/admission/{student}/edit', [StudentAdmissionController::class, 'edit'])
+            ->whereNumber('student')
+            ->middleware('permission:student,edit')
+            ->name('student-admissions.edit');
+
+        Route::put('/student/admission/{student}', [StudentAdmissionController::class, 'update'])
+            ->whereNumber('student')
+            ->middleware('permission:student,edit')
+            ->name('student-admissions.update');
+
+        Route::delete('/student/admission/{student}', [StudentAdmissionController::class, 'destroy'])
+            ->whereNumber('student')
+            ->middleware('permission:student,delete')
+            ->name('student-admissions.destroy');
+
+        Route::get('/student/admission/class-sections', [StudentAdmissionController::class, 'classSections'])
+            ->middleware('permission:student,add')
+            ->name('student-admissions.class-sections');
+
+        Route::get('/student/admission/registration-detail', [StudentAdmissionController::class, 'registrationDetail'])
+            ->middleware('permission:student,add')
+            ->name('student-admissions.registration-detail');
+
+        Route::post('/student_regd/enquiry-detail', [StudentRegistrationController::class, 'enquiryDetail'])
+            ->middleware('permission:student_regd,add')
+            ->name('student-registrations.enquiry-detail');
+
+        Route::get('/student_regd/location/{location}', [StudentRegistrationController::class, 'locationOptions'])
+            ->whereIn('location', ['provinces', 'divisions', 'districts', 'tehsils', 'areas'])
+            ->middleware('permission:student_regd,add')
+            ->name('student-registrations.location-options');
+
+        Route::get('/student_regd/{studentRegistration}', [StudentRegistrationController::class, 'show'])
+            ->whereNumber('studentRegistration')
+            ->middleware('permission:student_regd,view')
+            ->name('student-registrations.show');
+
+        Route::get('/student_regd/{studentRegistration}/edit', [StudentRegistrationController::class, 'edit'])
+            ->whereNumber('studentRegistration')
+            ->middleware('permission:student_regd,edit')
+            ->name('student-registrations.edit');
+
+        Route::put('/student_regd/{studentRegistration}', [StudentRegistrationController::class, 'update'])
+            ->whereNumber('studentRegistration')
+            ->middleware('permission:student_regd,edit')
+            ->name('student-registrations.update');
+
+        Route::delete('/student_regd/{studentRegistration}', [StudentRegistrationController::class, 'destroy'])
+            ->whereNumber('studentRegistration')
+            ->middleware('permission:student_regd,delete')
+            ->name('student-registrations.destroy');
+
+        Route::get('/promote_student', [StudentPromotionController::class, 'index'])
+            ->middleware('permission:promote_student,view')
+            ->name('student-promotions.index');
+
+        Route::get('/promote_student/sections', [StudentPromotionController::class, 'sections'])
+            ->middleware('permission:promote_student,view')
+            ->name('student-promotions.sections');
+
+        Route::post('/promote_student', [StudentPromotionController::class, 'store'])
+            ->middleware('permission:promote_student,add')
+            ->name('student-promotions.store');
 
         Route::get('/studentidcard', [StudentIdCardController::class, 'index'])
             ->middleware('permission:studentidcard,view')

@@ -1,9 +1,19 @@
-<section class="mb-4">
-    <h1 class="text-2xl font-semibold text-neutral-900">ADM / Student Affairs</h1>
-    <div class="mt-3 flex flex-wrap gap-2 text-sm">
-        @foreach (app(\App\Services\Adm\AdmModuleRegistry::class)->all() as $key => $item)
-            <a href="{{ route($item['route']) }}" class="rounded border px-3 py-2 {{ request()->routeIs($item['route']) ? 'border-blue-600 bg-blue-50 text-blue-700' : 'border-neutral-200 bg-white text-neutral-700 hover:bg-neutral-50' }}">
-                {{ $item['label'] }}
+@php
+    $modules = app(\App\Services\Adm\AdmModuleRegistry::class)->all();
+@endphp
+
+<section class="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
+    <div class="border-b border-[#f1b44c] bg-[#f8fafc] px-4 py-3">
+        <h1 class="text-[27px] font-semibold tracking-tight text-neutral-900">ADM / Student Affairs</h1>
+    </div>
+
+    <div class="flex flex-wrap gap-3 px-4 py-4">
+        @foreach ($modules as $key => $item)
+            <a
+                href="{{ route($item['route']) }}"
+                class="{{ request()->routeIs($item['route']) ? 'border-[#2f61b3] bg-[#2f61b3] text-white shadow-sm' : 'border-neutral-200 bg-white text-[#2f2f2f] hover:border-[#b8c6e2] hover:bg-[#f8fbff]' }} inline-flex items-center gap-2 rounded-lg border px-4 py-2.5 text-[15px] font-medium no-underline transition-colors"
+            >
+                <span class="text-[15px] leading-none">{{ $item['label'] }}</span>
             </a>
         @endforeach
     </div>

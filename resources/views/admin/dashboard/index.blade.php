@@ -5,18 +5,18 @@
 @section('content')
     @php
         $metricCards = [
-            ['label' => 'ADMISSION INQUIRY', 'value' => $stats['admission_inquiries'] ?? 14, 'meta' => 'TODAY : 0 WON : 6', 'icon' => 'fa-regular fa-clipboard', 'color' => 'text-red-500', 'style' => 'color:#ff1f3d'],
-            ['label' => 'REGISTRATION', 'value' => $stats['registrations'] ?? 0, 'meta' => 'SELF : 0 ONLINE : 0', 'icon' => 'fa-regular fa-clipboard', 'color' => 'text-neutral-700', 'style' => 'color:#111827'],
-            ['label' => 'ADMISSION', 'value' => $stats['admissions'] ?? 0, 'meta' => 'TODAY : 0 LEAVING : 0', 'icon' => 'fa-regular fa-id-badge', 'color' => 'text-emerald-500', 'style' => 'color:#00a651'],
-            ['label' => 'STUDENTS', 'value' => $stats['students'] ?? 0, 'meta' => 'P : 0 A : 0 L : 0', 'icon' => 'fa-solid fa-user-graduate', 'color' => 'text-orange-500', 'style' => 'color:#ff7a00'],
-            ['label' => 'ADMIN STAFF', 'value' => $stats['admin_staff'] ?? 0, 'meta' => 'P : 0 A : 0 L : 0', 'icon' => 'fa-solid fa-users-gear', 'color' => 'text-pink-500', 'style' => 'color:#ff008c'],
-            ['label' => 'TEACHING STAFF', 'value' => $stats['teaching_staff'] ?? 1, 'meta' => 'P : 0 A : 0 L : 0', 'icon' => 'fa-solid fa-users', 'color' => 'text-slate-500', 'style' => 'color:#64748b'],
-            ['label' => 'ALLIED STAFF', 'value' => $stats['allied_staff'] ?? 0, 'meta' => 'P : 0 A : 0 L : 0', 'icon' => 'fa-solid fa-people-group', 'color' => 'text-lime-500', 'style' => 'color:#84cc16'],
-            ['label' => 'FAMILIES', 'value' => $stats['families'] ?? 0, 'meta' => '', 'icon' => 'fa-solid fa-people-roof', 'color' => 'text-sky-500', 'style' => 'color:#0ea5e9'],
-            ['label' => 'COMPLAIN', 'value' => $stats['complaints'] ?? 0, 'meta' => 'TODAY : 0', 'icon' => 'fa-regular fa-rectangle-list', 'color' => 'text-purple-600', 'style' => 'color:#7e22ce'],
-            ['label' => 'VISITORS', 'value' => $stats['visitors'] ?? 0, 'meta' => 'TODAY : 0', 'icon' => 'fa-regular fa-building', 'color' => 'text-amber-700', 'style' => 'color:#92400e'],
-            ['label' => 'PURCHASE', 'value' => $stats['purchases'] ?? 0, 'meta' => 'TODAY : 0', 'icon' => 'fa-solid fa-cart-shopping', 'color' => 'text-orange-600', 'style' => 'color:#ff4b1f'],
-            ['label' => 'SALES', 'value' => $stats['sales'] ?? 0, 'meta' => 'TODAY : 0', 'icon' => 'fa-solid fa-money-bill-trend-up', 'color' => 'text-green-600', 'style' => 'color:#00a000'],
+            ['label' => 'ADMISSION INQUIRY', 'value' => $stats['admission_inquiries'] ?? 0, 'meta' => 'TODAY : '.($stats['admission_inquiries_today'] ?? 0).' WON : '.($stats['admission_inquiries_won'] ?? 0), 'image' => 'admission_inquiry.png', 'color' => 'text-red-500', 'style' => 'color:#ff1f3d', 'href' => route('admin.adm.enquiries.index', absolute: false), 'target' => '_blank'],
+            ['label' => 'REGISTRATION', 'value' => $stats['registrations'] ?? 0, 'meta' => 'SELF : '.($stats['registrations_self'] ?? 0).' ONLINE : '.($stats['registrations_online'] ?? 0), 'image' => 'student_regd.png', 'color' => 'text-neutral-700', 'style' => 'color:#111827', 'href' => route('admin.adm.student-registrations.index', absolute: false), 'target' => '_blank'],
+            ['label' => 'ADMISSION', 'value' => $stats['admissions'] ?? 0, 'meta' => 'TODAY : '.($stats['admissions_today'] ?? 0).' LEAVING : 0', 'image' => 'admission.png', 'color' => 'text-emerald-500', 'style' => 'color:#00a651', 'href' => route('admin.adm.students.index', absolute: false), 'target' => '_blank'],
+            ['label' => 'STUDENTS', 'value' => $stats['students'] ?? 0, 'meta' => 'P : 0 A : 0 L : 0', 'image' => 'students.png', 'color' => 'text-orange-500', 'style' => 'color:#ff7a00', 'href' => route('admin.adm.students.index', absolute: false), 'target' => '_blank'],
+            ['label' => 'ADMIN STAFF', 'value' => $stats['admin_staff'] ?? 0, 'meta' => 'P : 0 A : 0 L : 0', 'image' => 'admindb.png', 'color' => 'text-pink-500', 'style' => 'color:#ff008c', 'href' => route('admin.hrms.staff.index', absolute: false)],
+            ['label' => 'TEACHING STAFF', 'value' => $stats['teaching_staff'] ?? 0, 'meta' => 'P : 0 A : 0 L : 0', 'image' => 'staff.png', 'color' => 'text-slate-500', 'style' => 'color:#64748b', 'href' => route('admin.hrms.staff.index', absolute: false)],
+            ['label' => 'ALLIED STAFF', 'value' => $stats['allied_staff'] ?? 0, 'meta' => 'P : 0 A : 0 L : 0', 'image' => 'staff-a.png', 'color' => 'text-lime-500', 'style' => 'color:#84cc16', 'href' => route('admin.hrms.staff.index', absolute: false)],
+            ['label' => 'FAMILIES', 'value' => $stats['families'] ?? 0, 'meta' => '', 'image' => 'family.png', 'color' => 'text-sky-500', 'style' => 'color:#0ea5e9', 'href' => route('admin.adm.siblings.index', absolute: false)],
+            ['label' => 'COMPLAIN', 'value' => $stats['complaints'] ?? 0, 'meta' => 'TODAY : 0', 'image' => 'complaint.png', 'color' => 'text-purple-600', 'style' => 'color:#7e22ce', 'href' => route('admin.adm.complaints.index', absolute: false)],
+            ['label' => 'VISITORS', 'value' => $stats['visitors'] ?? 0, 'meta' => 'TODAY : 0', 'image' => 'visitor.png', 'color' => 'text-amber-700', 'style' => 'color:#92400e', 'href' => route('admin.adm.visitor-purposes.index', absolute: false)],
+            ['label' => 'PURCHASE', 'value' => $stats['purchases'] ?? 0, 'meta' => 'TODAY : 0', 'image' => 'purchase.png', 'color' => 'text-orange-600', 'style' => 'color:#ff4b1f', 'href' => route('admin.account.purchases.index', absolute: false)],
+            ['label' => 'SALES', 'value' => $stats['sales'] ?? 0, 'meta' => 'TODAY : 0', 'image' => 'sales.png', 'color' => 'text-green-600', 'style' => 'color:#00a000', 'href' => route('admin.account.sales.index', absolute: false)],
         ];
 
         $moduleTabs = [
@@ -28,8 +28,58 @@
             ['label' => 'SYSTEM SETTINGS', 'icon' => 'fa-solid fa-gears', 'href' => route('admin.systemsettings.dashboard', absolute: false)],
         ];
 
-        $moduleCards = [
-            ['label' => 'FRONT CMS SETTING', 'image' => 'cms.png', 'href' => '/admin/frontcms'],
+        $moduleSections = [
+            [
+                'label' => 'HRMS',
+                'icon' => 'fa-solid fa-users',
+                'links' => [
+                    ['label' => 'HRMS Dashboard', 'href' => route('admin.hrms.dashboard', absolute: false)],
+                    ['label' => 'Staff Directory', 'href' => route('admin.hrms.staff.index', absolute: false)],
+                    ['label' => 'HRMS Documents', 'href' => route('admin.hrms.documents.index', absolute: false)],
+                ],
+            ],
+            [
+                'label' => 'ADMINISTRATION',
+                'icon' => 'fa-solid fa-user-plus',
+                'links' => [
+                    ['label' => 'ADM Dashboard', 'href' => route('admin.adm.dashboard', absolute: false)],
+                    ['label' => 'Admission Enquiries', 'href' => route('admin.adm.enquiries.index', absolute: false)],
+                    ['label' => 'Student Registration', 'href' => route('admin.adm.student-registrations.index', absolute: false)],
+                    ['label' => 'Students', 'href' => route('admin.adm.students.index', absolute: false)],
+                    ['label' => 'Attendance', 'href' => route('admin.adm.attendance.index', absolute: false)],
+                    ['label' => 'Complaints', 'href' => route('admin.adm.complaints.index', absolute: false)],
+                ],
+            ],
+            [
+                'label' => 'ACADEMICS',
+                'icon' => 'fa-solid fa-book',
+                'links' => [
+                    ['label' => 'Academics Dashboard', 'href' => route('admin.academics.dashboard', absolute: false)],
+                    ['label' => 'Subject Groups', 'href' => route('admin.academics.subject-groups.index', absolute: false)],
+                    ['label' => 'Subjects', 'href' => route('admin.academics.subjects.index', absolute: false)],
+                    ['label' => 'Teachers', 'href' => route('admin.academics.teachers.index', absolute: false)],
+                    ['label' => 'Exam Groups', 'href' => route('admin.academics.exam-groups.index', absolute: false)],
+                ],
+            ],
+            [
+                'label' => 'ACCOUNTS & FINANCE',
+                'icon' => 'fa-solid fa-calculator',
+                'links' => [
+                    ['label' => 'Accounts Dashboard', 'href' => route('admin.account.accounts.dashboard.legacy', absolute: false)],
+                    ['label' => 'Fee Master', 'href' => route('admin.account.fee-master.index', absolute: false)],
+                    ['label' => 'Student Fees', 'href' => route('admin.account.student-fees.index', absolute: false)],
+                    ['label' => 'Purchases', 'href' => route('admin.account.purchases.index', absolute: false)],
+                    ['label' => 'Sales', 'href' => route('admin.account.sales.index', absolute: false)],
+                ],
+            ],
+            [
+                'label' => 'SYSTEM SETTINGS',
+                'icon' => 'fa-solid fa-gears',
+                'links' => [
+                    ['label' => 'General Settings', 'href' => route('admin.systemsettings.dashboard', absolute: false)],
+                    ['label' => 'Front CMS Settings', 'href' => route('admin.frontcms.index', absolute: false)],
+                ],
+            ],
         ];
 
         $cmsCards = [
@@ -52,11 +102,11 @@
 
         $progressPanels = [
             'Admission Enquiry For Jul 2026' => [
-                ['label' => '1 ACTIVE', 'value' => '25%', 'width' => '25%', 'color' => 'bg-red-500', 'style' => 'background:#ef4444'],
-                ['label' => '1 WON', 'value' => '25%', 'width' => '25%', 'color' => 'bg-amber-500', 'style' => 'background:#f59e0b'],
-                ['label' => '2 PASSIVE', 'value' => '50%', 'width' => '50%', 'color' => 'bg-orange-400', 'style' => 'background:#fb923c'],
-                ['label' => '0 LOST', 'value' => '0%', 'width' => '0%', 'color' => 'bg-neutral-400', 'style' => 'background:#a3a3a3'],
-                ['label' => '0 DEAD', 'value' => '0%', 'width' => '0%', 'color' => 'bg-neutral-400', 'style' => 'background:#a3a3a3'],
+                ['label' => ($stats['enquiry_overview']['active']['count'] ?? 0).' ACTIVE', 'value' => ($stats['enquiry_overview']['active']['percentage'] ?? 0).'%','width' => ($stats['enquiry_overview']['active']['percentage'] ?? 0).'%', 'color' => 'bg-red-500', 'style' => 'background:#ef4444'],
+                ['label' => ($stats['enquiry_overview']['won']['count'] ?? 0).' WON', 'value' => ($stats['enquiry_overview']['won']['percentage'] ?? 0).'%','width' => ($stats['enquiry_overview']['won']['percentage'] ?? 0).'%', 'color' => 'bg-amber-500', 'style' => 'background:#f59e0b'],
+                ['label' => ($stats['enquiry_overview']['passive']['count'] ?? 0).' PASSIVE', 'value' => ($stats['enquiry_overview']['passive']['percentage'] ?? 0).'%','width' => ($stats['enquiry_overview']['passive']['percentage'] ?? 0).'%', 'color' => 'bg-orange-400', 'style' => 'background:#fb923c'],
+                ['label' => ($stats['enquiry_overview']['lost']['count'] ?? 0).' LOST', 'value' => ($stats['enquiry_overview']['lost']['percentage'] ?? 0).'%','width' => ($stats['enquiry_overview']['lost']['percentage'] ?? 0).'%', 'color' => 'bg-neutral-400', 'style' => 'background:#a3a3a3'],
+                ['label' => ($stats['enquiry_overview']['dead']['count'] ?? 0).' DEAD', 'value' => ($stats['enquiry_overview']['dead']['percentage'] ?? 0).'%','width' => ($stats['enquiry_overview']['dead']['percentage'] ?? 0).'%', 'color' => 'bg-neutral-400', 'style' => 'background:#a3a3a3'],
             ],
             'Student Today Attendance' => [
                 ['label' => 'PRESENT', 'value' => '', 'width' => '0%', 'color' => 'bg-green-500', 'style' => 'background:#22c55e'],
@@ -106,9 +156,9 @@
             <div class="admin-dashboard-grid grid gap-3 p-3 xl:grid-cols-[minmax(0,4fr)_minmax(260px,1fr)_minmax(260px,1fr)]">
                 <div class="admin-metric-grid grid gap-3 md:grid-cols-2 2xl:grid-cols-4">
                     @foreach ($metricCards as $card)
-                        <article class="admin-metric-card flex min-h-[74px] items-center gap-3 rounded-xl border border-neutral-300 bg-white px-3 shadow-sm">
-                            <div class="admin-metric-icon {{ $card['color'] }} w-10 text-center text-4xl leading-none" style="{{ $card['style'] }}">
-                                <i class="{{ $card['icon'] }}"></i>
+                        <a href="{{ $card['href'] }}" @isset($card['target']) target="{{ $card['target'] }}" rel="noopener" @endisset class="admin-metric-card flex min-h-[96px] items-center gap-3 rounded-xl border border-neutral-300 bg-white px-3 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                            <div class="admin-metric-icon w-10 shrink-0 text-center leading-none">
+                                <img src="{{ asset('assets/images/db/'.$card['image']) }}" alt="{{ $card['label'] }}" class="mx-auto h-10 w-10 object-contain">
                             </div>
                             <div class="min-w-0">
                                 <p class="admin-card-title {{ $card['color'] }} text-sm font-medium" style="{{ $card['style'] }}">{{ $card['label'] }}</p>
@@ -117,7 +167,7 @@
                                     <p class="admin-card-meta {{ $card['color'] }} text-sm font-semibold" style="{{ $card['style'] }}">{{ $card['meta'] }}</p>
                                 @endif
                             </div>
-                        </article>
+                        </a>
                     @endforeach
                 </div>
 
@@ -128,11 +178,11 @@
                     </div>
                     <div class="admin-stat-line mb-2 flex items-center justify-between border-b border-neutral-200 pb-2 text-sm text-sky-500">
                         <span><i class="fa-solid fa-child"></i> Boys</span>
-                        <span class="rounded border border-sky-500 px-1">0</span>
+                        <span class="rounded border border-sky-500 px-1">{{ $stats['male_students'] ?? 0 }}</span>
                     </div>
                     <div class="admin-stat-line flex items-center justify-between text-sm text-pink-600">
                         <span><i class="fa-solid fa-child-dress"></i> Girls</span>
-                        <span class="rounded border border-pink-500 px-1">0</span>
+                        <span class="rounded border border-pink-500 px-1">{{ $stats['female_students'] ?? 0 }}</span>
                     </div>
                 </article>
 
@@ -144,11 +194,11 @@
                     </div>
                     <div class="admin-stat-line mb-2 flex items-center justify-between border-b border-neutral-200 pb-2 text-sm text-sky-500">
                         <span><i class="fa-solid fa-mars"></i> Male</span>
-                        <span class="rounded border border-sky-500 px-1">1</span>
+                        <span class="rounded border border-sky-500 px-1">{{ $stats['male_staff'] ?? 0 }}</span>
                     </div>
                     <div class="admin-stat-line flex items-center justify-between text-sm text-pink-600">
                         <span><i class="fa-solid fa-venus"></i> Female</span>
-                        <span class="rounded border border-pink-500 px-1">1</span>
+                        <span class="rounded border border-pink-500 px-1">{{ $stats['female_staff'] ?? 0 }}</span>
                     </div>
                 </article>
             </div>
@@ -177,8 +227,8 @@
 
                 <section class="admin-panel overflow-hidden rounded-xl bg-white shadow-lg">
                     <div class="admin-panel-title flex items-center justify-between bg-[#2f61b3] px-2 py-1 text-sm font-semibold text-white">
-                        <span>Complains For Jul 2026</span>
-                        <span>Today : 0 / Total : 0 / Solved : 0</span>
+                        <span>Complains For {{ now()->format('M Y') }}</span>
+                        <span>Today : 0 / Total : {{ $stats['complaints'] ?? 0 }} / Solved : 0</span>
                     </div>
                     <div class="min-h-[288px]"></div>
                 </section>
@@ -186,7 +236,7 @@
 
             <div class="admin-fees-row grid gap-4 px-3 pb-4 xl:grid-cols-[minmax(0,2fr)_minmax(360px,0.8fr)]">
                 <section class="admin-panel overflow-hidden rounded-xl bg-white shadow-lg">
-                    <h2 class="admin-panel-title bg-[#2f61b3] px-2 py-1 text-sm font-semibold text-white">Fees Collection Statistics For - Jul 2026</h2>
+                    <h2 class="admin-panel-title bg-[#2f61b3] px-2 py-1 text-sm font-semibold text-white">Fees Collection Statistics For - {{ now()->format('M Y') }}</h2>
                     <div class="px-4 py-5 text-center text-base">
                         RECEIVABLE: 0 / &nbsp;&nbsp; COLLECTION: 0 / &nbsp;&nbsp; WAIVE OFF: 0 / &nbsp;&nbsp; BALANCE: 0 / &nbsp;&nbsp; TODAY COLLECTION: 0
                     </div>
@@ -203,12 +253,16 @@
         </div>
 
         <div id="modules" data-dashboard-pane class="hidden p-[10px]">
-            <div class="legacy-dashboard-card-grid">
-                @foreach ($moduleCards as $card)
-                    <a href="{{ $card['href'] }}" class="legacy-dashboard-card">
-                        <img src="{{ asset('assets/images/db/'.$card['image']) }}" alt="{{ $card['label'] }}">
-                        <span>{{ $card['label'] }}</span>
-                    </a>
+            <div class="grid gap-4 lg:grid-cols-5">
+                @foreach ($moduleSections as $section)
+                    <section class="legacy-module-section">
+                        <h2><i class="{{ $section['icon'] }}"></i> {{ $section['label'] }}</h2>
+                        <ul>
+                            @foreach ($section['links'] as $link)
+                                <li><a href="{{ $link['href'] }}"><i class="fa-solid fa-angle-double-right"></i> {{ $link['label'] }}</a></li>
+                            @endforeach
+                        </ul>
+                    </section>
                 @endforeach
             </div>
         </div>
@@ -284,6 +338,42 @@
             height: 34px;
             object-fit: contain;
             flex: 0 0 34px;
+        }
+
+        .legacy-module-section {
+            min-height: 220px;
+            border: 1px solid #d4d4d4;
+            border-radius: 7px;
+            background: #fff;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, .08);
+        }
+
+        .legacy-module-section h2 {
+            margin: 0;
+            border-bottom: 1px solid #d4d4d4;
+            padding: 10px;
+            color: #2f5da8;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .legacy-module-section ul {
+            margin: 0;
+            padding: 6px 0;
+            list-style: none;
+        }
+
+        .legacy-module-section li a {
+            display: block;
+            padding: 7px 10px;
+            color: #333;
+            font-size: 12px;
+            text-decoration: none;
+        }
+
+        .legacy-module-section li a:hover {
+            background: #eef4ff;
+            color: #2f5da8;
         }
 
         @media (max-width: 1024px) {

@@ -2,6 +2,8 @@
 
 namespace App\Models\Adm;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 class StudentRegistration extends AdmModel
 {
     protected $table = 'students_regd';
@@ -18,5 +20,10 @@ class StudentRegistration extends AdmModel
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
         ];
+    }
+
+    public function fees(): HasMany
+    {
+        return $this->hasMany(StudentRegistrationFee::class, 'student_regd_id');
     }
 }
